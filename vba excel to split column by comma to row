@@ -1,0 +1,41 @@
+Sub test()
+     Dim Text As Variant
+    Dim Text1() As String
+    Dim first As Integer
+    Dim last As Integer
+    Dim i As Integer
+    Dim count As Integer
+    Dim row As Integer
+    Dim col As Integer
+    Dim j As Integer
+    Dim last_row As Integer
+    Dim ThisRng As Range
+    Set ThisRng = Application.InputBox("Select a range", "Get Range", Type:=8)
+    col = ThisRng(1).Column
+    row = ThisRng(1).row
+    last_row = ThisRng.Cells(1, 1).row + ThisRng.Rows.count - 1
+    While row <= last_row
+        Text = Cells(row, col)
+        Text1 = Split(Text, ",")
+        first = LBound(Text1)
+        last = UBound(Text1)
+        lengthOfArray = last - first
+        For i = 0 To lengthOfArray
+        If count = 0 Then
+         Cells(row, col).Value = Trim(Text1(i))
+        End If
+        If count <> 0 Then
+                Range(Cells(row, col), Cells(row, col)).Activate
+                ActiveCell.EntireRow.Select
+                Selection.Copy
+                Selection.Insert Shift:=xlDown
+                row = row + 1
+                last_row = last_row + 1
+                Cells(row, col).Value = Trim(Text1(i))
+        End If
+        count = count + 1
+        Next i
+        count = 0
+        row = row + 1
+    Wend
+End Sub
